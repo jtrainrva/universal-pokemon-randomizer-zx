@@ -112,13 +112,25 @@ public class Pokemon implements Comparable<Pokemon> {
     }
 
     public void randomizeStatsWithinBST(Random random) {
+        // Generates independent normals
+        double z0 = random.nextGaussian();
+        double z1 = random.nextGaussian();
+        double z2 = random.nextGaussian();
+        double z3 = random.nextGaussian();
+        double z4 = random.nextGaussian();
+        double z5 = random.nextGaussian();
+        // Convert to fitted lognormal
+        double hpW = Math.exp(4.14476157 + 0.35628055 * z0);
+        double atkW = Math.exp(4.23613038 + 0.2059379 * z0 + 0.39238672 * z1);
+        double defW = Math.exp(4.17978108 + 0.13371041 * z0 + 0.17673909 * z1 + 0.3620936 * z2);
+        double spaW = Math.exp(4.11872766 + 0.18178452 * z0 + 0.07144574 * z1 + 0.02937168 * z2 + 0.40682896 * z3);
+        double spdW = Math.exp(4.15594903 + 0.1539274 * z0 + 0.01161733 * z1 + 0.16141001 * z2 + 0.14194614 * z3 + 0.27726306 * z4);
+        double speW = Math.exp(4.06148425 + 0.07350466 * z0 + 0.12882374 * z1 - 0.1132826 * z2 + 0.1557386 * z3 + 0.06246181 * z4 + 0.43868423 * z5);
         if (number == Species.shedinja) {
             // Shedinja is horribly broken unless we restrict him to 1HP.
             int bst = bst() - 51;
 
             // Make weightings
-            double atkW = random.nextDouble(), defW = random.nextDouble();
-            double spaW = random.nextDouble(), spdW = random.nextDouble(), speW = random.nextDouble();
 
             double totW = atkW + defW + spaW + spdW + speW;
 
@@ -133,8 +145,6 @@ public class Pokemon implements Comparable<Pokemon> {
             int bst = bst() - 70;
 
             // Make weightings
-            double hpW = random.nextDouble(), atkW = random.nextDouble(), defW = random.nextDouble();
-            double spaW = random.nextDouble(), spdW = random.nextDouble(), speW = random.nextDouble();
 
             double totW = hpW + atkW + defW + spaW + spdW + speW;
 
